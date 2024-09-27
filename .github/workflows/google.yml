@@ -39,7 +39,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: '${{ secrets.GKE_PROJECT }}'
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GAR_LOCATION: 'us-central1' # TODO: update to your region
   GKE_CLUSTER: 'my-cluster' # TODO: update to your cluster name
   GKE_ZONE: 'us-central1-a' # TODO: update to your cluster zone
@@ -70,8 +70,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
         with:
-          service_account_key: '${{ secrets.GKE_SA_KEY }}'
-          project_id: '${{ secrets.GKE_PROJECT }}'
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - run: |-
