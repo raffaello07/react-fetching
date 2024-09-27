@@ -13,7 +13,7 @@ define createNamespace
 endef
 
 create-namespace:
-	$(call createNamespace,${KONG_NAMESPACE})
+	$(call createNamespace,${NAMESPACE})
 
 build-docker:
 	$(foreach image, $(INTERNAL_IMAGES),$(call buildDockerCommand,${image},${TEST_IMAGE_PATH}/${image}))
@@ -27,3 +27,6 @@ ecr-login:
 
 gcp-login:
 	gcloud auth configure-docker ${REPOSITORY_DOMAIN}
+
+deploy:
+	helm -n ${NAMESPACE} install --set image=${REPOSITORY_DOMAIN}/${REPOSITORY_PATH}/${INTERNAL_IMAGES}:${BUILD_SUFFIX} react-app ./helm

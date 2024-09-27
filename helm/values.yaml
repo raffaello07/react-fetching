@@ -1,0 +1,5 @@
+name: react-app
+image: "us-east4-docker.pkg.dev/rising-hallway-159415/cvs-test/cvs-react:1-0-0"
+port: 80
+appport: 80
+imagePullPolicy: Always

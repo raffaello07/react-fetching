@@ -1,0 +1,4 @@
+apiVersion: v2
+name: react-app
+version: 1.0.0
+description: A chart to deploy a react-app
