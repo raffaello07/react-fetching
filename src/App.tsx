@@ -11,7 +11,7 @@ function App() {
   };
   return (
     <div className="app">
-     <h1>hello v1</h1>
+     <h1>hello v2</h1>
      <p>Current url: {currentUrl}</p>
      <div>
       <Post handleChange={handleUrlChange}/>
