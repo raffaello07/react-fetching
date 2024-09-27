@@ -66,10 +66,12 @@ jobs:
       #
       # See https://github.com/google-github-actions/auth for more options,
       # including authenticating via a JSON credentials file.
-      # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
+      # Authenticate to Google Cloud using Workload Identity Federation
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: google-github-actions/auth@v1
         with:
-          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          credentials_json: ${{ secrets.GKE_SA_KEY }}
           project_id: ${{ secrets.GKE_PROJECT }}
 
       # Authenticate Docker to Google Cloud Artifact Registry
