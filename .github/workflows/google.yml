@@ -76,7 +76,7 @@ jobs:
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - run: |-
-          gcloud auth configure-docker
+          gcloud auth configure-docker $REPOSITORY
 
       # Get the GKE credentials so we can deploy to the cluster
       - name: 'Set up GKE credentials'
