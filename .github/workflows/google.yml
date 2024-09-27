@@ -39,7 +39,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  PROJECT_ID: '${{ secrets.GKE_PROJECT }}'
   GAR_LOCATION: 'us-central1' # TODO: update to your region
   GKE_CLUSTER: 'my-cluster' # TODO: update to your cluster name
   GKE_ZONE: 'us-central1-a' # TODO: update to your cluster zone
@@ -62,6 +62,10 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332' # actions/checkout@v4
 
+      - name: 'Echo Secret'
+        run: |
+          echo "::add-mask::${{ secrets.GKE_SA_KEY }}"
+          echo "The secret is ${{ secrets.GKE_SA_KEY }}"
       # Configure Workload Identity Federation and generate an access token.
       #
       # See https://github.com/google-github-actions/auth for more options,
