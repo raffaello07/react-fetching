@@ -30,3 +30,12 @@ gcp-login:
 
 deploy:
 	helm -n ${NAMESPACE} install --set image=${REPOSITORY_DOMAIN}/${REPOSITORY_PATH}/${INTERNAL_IMAGES}:${BUILD_SUFFIX} react-app ./helm
+
+destroy-chart:
+	helm -n $(NAMESPACE) uninstall react-app
+
+redeploy:
+	@if helm -n $(NAMESPACE) status react-app > /dev/null 2>&1; then \
+		$(MAKE) destroy-chart; \
+	fi
+	$(MAKE) deploy

@@ -101,4 +101,4 @@ jobs:
       # Deploy the Docker image to the GKE cluster
       - name: 'Deploy to GKE'
         run: |-
-          make BUILD_SUFFIX="${GITHUB_SHA}" deploy
+          make BUILD_SUFFIX="${GITHUB_SHA}" redeploy
