@@ -1,11 +1,11 @@
 React application in GKE
 ====================
-This repository contains a React application that can be deploy to K8s cluster.
+This repository contains a React application that can be deploy to a K8s cluster.
 
 ## Deployment to GKE
 
 ### Prerequisites
-To run the application locally in kubernetes, you will need:
+To deploy the application to a kubernetes cluster in GCP (GKE), you will need:
 
 * [Docker](https://www.docker.com)
 * [gcloud CLI](https://cloud.google.com/sdk/docs/install)
@@ -21,7 +21,7 @@ gcloud auth login
 gcloud init
 ```
 
-2. Enable the Kubernetes API and Artifact Registry AP:
+2. Enable the Kubernetes API and Artifact Registry API:
 ```shell
 gcloud services enable container.googleapis.com
 gcloud services enable artifactregistry.googleapis.com
