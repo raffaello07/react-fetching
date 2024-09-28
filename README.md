@@ -1,6 +1,111 @@
-# Getting Started with Create React App
+React application in GKE
+====================
+This repository contains a React application that can be deploy to K8s cluster.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Deployment to GKE
+
+### Prerequisites
+To run the application locally in kubernetes, you will need:
+
+* [Docker](https://www.docker.com)
+* [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+* Have [Make](https://www.gnu.org/software/make/)
+installed and accessible from your terminal (usually just needed for Windows).
+* [Helm](https://helm.sh/docs/intro/install/)
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+
+### How to deploy
+1. Configure the glocloud cli
+```shell
+gcloud auth login
+gcloud init
+```
+
+2. Enable the Kubernetes API and Artifact Registry AP:
+```shell
+gcloud services enable container.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
+```
+
+3. Create a Docker image repository in Artifact Registry
+```shell
+gcloud artifacts repositories create my-repo --repository-format=docker --location=us-central1
+```
+
+4. Configure Docker to use the gcloud credential helper.
+```shell
+gcloud auth configure-docker us-central1-docker.pkg.dev
+```
+
+5. Create a GKE Cluster:
+```shell
+gcloud container clusters create my-gke-cluster --zone us-central1-a --num-nodes=2
+```
+
+6. Configure kubectl to Use the GKE Cluster:
+```shell
+gcloud container clusters get-credentials my-gke-cluster --zone us-central1-a
+```
+7. Build and push the Docker image using the Makefile:
+```shell
+make REPOSITORY_DOMAIN="us-central1-docker.pkg.dev" REPOSITORY_PATH="${PROJECT_ID}/my-repo" build-docker
+make REPOSITORY_DOMAIN="us-central1-docker.pkg.dev" REPOSITORY_PATH="${PROJECT_ID}/my-repo" push-images
+```
+
+8. Create the namespace(if needed):
+```shell
+make create-namespace
+```
+
+9. Deploy:
+```shell
+make REPOSITORY_DOMAIN="us-central1-docker.pkg.dev" REPOSITORY_PATH="${PROJECT_ID}/my-repo" deploy
+```
+
+10. Once the testing is finished, destroy
+```shell
+make destroy-chart
+```
+
+## Local Deployment
+
+### Prerequisites
+To run the application locally in kubernetes, you will need:
+
+* [Docker](https://www.docker.com)
+* Have [Make](https://www.gnu.org/software/make/)
+installed and accessible from your terminal (usually just needed for Windows).
+* [Helm](https://helm.sh/docs/intro/install/)
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+
+### How to run
+1. Open and start [Docker Desktop Application](https://docs.docker.com/desktop/release-notes/)
+
+2. Enable kubernetes in Docker Desktop
+
+3. Set the current context to docker-desktop:
+```shell
+kubectl config use-context docker-desktop
+```
+4. Build the docker image:
+```shell
+make build-docker
+```
+
+5. Create the namespace:
+```shell
+make create-namespace
+```
+
+6. Deploy:
+```shell
+make deploy
+```
+
+7. Once the testing is finished, destroy
+```shell
+make destroy-chart
+```
 
 ## Available Scripts
 
@@ -33,11 +138,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
