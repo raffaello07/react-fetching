@@ -29,7 +29,11 @@ gcp-login:
 	gcloud auth configure-docker ${REPOSITORY_DOMAIN}
 
 deploy:
-	helm -n ${NAMESPACE} install --set image=${REPOSITORY_DOMAIN}/${REPOSITORY_PATH}/${INTERNAL_IMAGES}:${BUILD_SUFFIX} react-app ./helm
+	@if helm -n $(NAMESPACE) status react-app > /dev/null 2>&1; then \
+		helm -n $(NAMESPACE) upgrade --install --set image=${REPOSITORY_DOMAIN}/${REPOSITORY_PATH}/${INTERNAL_IMAGES}:${BUILD_SUFFIX} react-app ./helm; \
+    else \
+		helm -n $(NAMESPACE) install --set image=${REPOSITORY_DOMAIN}/${REPOSITORY_PATH}/${INTERNAL_IMAGES}:${BUILD_SUFFIX} react-app ./helm; \
+    fi
 
 destroy-chart:
 	helm -n $(NAMESPACE) uninstall react-app
