@@ -18,7 +18,10 @@ export default function Fetch({apiUrl}:{apiUrl: string}) {
       const response = await fetch(apiUrl);
       const data: {[key:string]: string}[] = await response.json();
       setListItems(data);
-      setTitles(Object.keys(data[0]));
+      if(data.length){
+        setTitles(Object.keys(data[0]));
+      }
+
       setIsLoading(false);
       } catch(err) {
         console.error(err);
@@ -29,6 +32,9 @@ export default function Fetch({apiUrl}:{apiUrl: string}) {
   }, [apiUrl]);
   if(isLoading){
     return <p>isLoading...</p>
+  }
+  if(listItems.length === 0) {
+    return <p>No data to show.</p>
   }
   return (
     <>
